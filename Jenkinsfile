@@ -11,7 +11,7 @@ pipeline{
                 //mvn test
                 //sh "mvn --version"
                 sh "mvn test"
-                 slackSend channel: 'rk', message: 'Job Started'
+                 //slackSend channel: 'rk', message: 'Job Started'
             }
            
         }
@@ -49,11 +49,11 @@ pipeline{
         }
         success{
             echo "========pipeline executed successfully ========"
-            slackSend channel: 'rk', message: 'Success'
+            //slackSend channel: 'rk', message: 'Success'
         }
         failure{
             echo "========pipeline execution failed========"
-             slackSend channel: 'rk', message: 'Job Failed'
+             //slackSend channel: 'rk', message: 'Job Failed'
         }
     }
 }
