@@ -11,6 +11,7 @@ pipeline{
                 //mvn test
                 //sh "mvn --version"
                 sh "mvn test"
+                 slackSend channel: 'rk', message: 'Job Started'
             }
            
         }
@@ -30,6 +31,11 @@ pipeline{
            
         }
         stage("Deploy on Prod"){
+            //this is for manual approval ->deploy for prod "no direct deployment"
+            input {
+                message "Should we continue?"
+                ok "Yes we Should"
+            }
             steps{
                 // deploy on container -> plugin 
                 deploy adapters: [tomcat9(credentialsId: 'tomcatServerDetails', path: '', url: 'http://44.204.44.210:8081')], contextPath: '/app', war: '**/*war'
@@ -43,9 +49,11 @@ pipeline{
         }
         success{
             echo "========pipeline executed successfully ========"
+            slackSend channel: 'rk', message: 'Success'
         }
         failure{
             echo "========pipeline execution failed========"
+             slackSend channel: 'rk', message: 'Job Failed'
         }
     }
 }
